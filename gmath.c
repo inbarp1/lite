@@ -12,14 +12,14 @@ color get_lighting( double *normal, double *view, color alight, double light[2][
   normalize(light[LOCATION]);
   normalize(view);
   
-  color ambient=calculate_ambient(alight, areflect);
-  color diffuse=calculate_diffuse(light, dreflect, normal);
-  color specular=calculate_specular(light, sreflect, view, normal);
+  color a=calculate_ambient(alight, areflect);
+  color d=calculate_diffuse(light, dreflect, normal);
+  color s=calculate_specular(light, sreflect, view, normal);
   //printf("red: %d, green: %d, blue: %d\n",i.red,i.green,i.blue);
   color i;
-  i.red=ambient.red+diffuse.red+specular.red;
-  i.green=ambient.green+diffuse.green+specular.green;
-  i.blue=ambient.blue+diffuse.blue+specular.blue;
+  i.red=a.red+d.red+s.red;
+  i.green=a.green+d.green+s.green;
+  i.blue=a.blue+d.blue+s.blue;
   limit_color(&i);
   return i;
 }
@@ -36,7 +36,6 @@ color calculate_ambient(color alight, double *areflect ) {
 
 color calculate_diffuse(double light[2][3], double *dreflect, double *normal ) {
   color d;
-  //P*Kd*(N dot L)
   
   double dot=dot_product(normal, light[LOCATION]);//how calculate light vector
   
@@ -102,10 +101,10 @@ void limit_color( color * c ) {
 //normalize vetor, should modify the parameter
 void normalize( double *vector ) {
   //divide all components by magnitude
-  double magnitude=sqrt(vector[0]*vector[0]+vector[1]*vector[1]+vector[2]*vector[2]);
-  vector[0]=vector[0]/magnitude;
-  vector[1]=vector[1]/magnitude;
-  vector[2]=vector[2]/magnitude;
+  double mag=sqrt(vector[0]*vector[0]+vector[1]*vector[1]+vector[2]*vector[2]);
+  vector[0]=vector[0]/mag;
+  vector[1]=vector[1]/mag;
+  vector[2]=vector[2]/mag;
   
 }
 
